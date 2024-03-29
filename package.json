@@ -1,13 +1,18 @@
 {
   "scripts": {
-    "dev": "wrangler dev src/index.ts",
-    "deploy": "wrangler deploy --minify src/index.ts"
+    "dev": "vite",
+    "build": "vite build"
   },
   "dependencies": {
     "hono": "^4.1.4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240208.0",
+    "@hiogawa/vite-node-miniflare": "^0.0.3-pre.3",
+    "vite": "^5.2.6",
+    "vite-plugin-golang-wasm": "link:vite-plugin-golang-wasm",
+    "vite-tsconfig-paths": "^4.3.2",
     "wrangler": "^3.32.0"
-  }
+  },
+  "type": "module"
 }

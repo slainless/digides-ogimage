@@ -1,9 +1,13 @@
 import { Hono } from 'hono'
 
-const app = new Hono()
+import { generateKeyHandler } from './handlers/generate-key'
+import { exampleHandler } from './handlers/example'
+import { mainHandler } from './handlers/main'
 
-app.get('/', (c) => {
-  return c.text('Hello Hono! Holy Shit')
-})
+const app = new Hono<Env>()
+
+app.get('/', mainHandler)
+app.get("/generate-key", generateKeyHandler)
+app.get("/example", exampleHandler)
 
 export default app

@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "dev": "vite"
   },
   "dependencies": {
     "hono": "^4.1.4"

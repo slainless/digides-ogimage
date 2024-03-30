@@ -7,6 +7,9 @@ import type { WorkerOptions } from 'miniflare'
 
 export default defineConfig({
   plugins: [
+    goWasm({
+      wasmExecPath: "./src/wasm/wasm_exec.js"
+    }),
     tsconfigPaths(),
     vitePluginViteNodeMiniflare({
       entry: "./src/index.ts",
@@ -15,10 +18,9 @@ export default defineConfig({
         const opts = options as WorkerOptions
         opts.compatibilityFlags = ["nodejs_compat"]
         opts.r2Buckets = ["R2_ASSETS"]
-        opts.bindings.PAYLOAD_ENCRYPTION_SECRET = "ThlIVaRD1kwBGpdeyutAx6yKwb4ZKuIMqqhrNoeA9X0"
+        opts.bindings!.PAYLOAD_ENCRYPTION_SECRET = "ThlIVaRD1kwBGpdeyutAx6yKwb4ZKuIMqqhrNoeA9X0"
       },
     }),
-    goWasm(),
   ],
   build: {
     manifest: true,

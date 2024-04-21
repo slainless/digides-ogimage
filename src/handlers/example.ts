@@ -10,8 +10,8 @@ export const exampleHandler: Handler = async (c) => {
   const payload: Payload = {
     title: "This is a title",
     subtitle: "This is subtitle",
-    background: "uploads/background.jpg",
-    icon: "uploads/icon.jpg"
+    background: "uploads/profil/73.11.02.2006/common/35ade0a022c7b566dbffdc934f4cb174.png",
+    icon: "uploads/online/73.11.02.2006/common/300_barru.png"
   }
 
   const encrypted = await encode(key, payload)

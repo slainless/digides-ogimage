@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bytes"
+	"encoding/base64"
 	"image/jpeg"
 	"io"
 
@@ -10,19 +10,32 @@ import (
 	"github.com/teamortix/golang-wasm/wasm"
 )
 
-func start(raw map[string]any) ([]byte, error) {
-	params := bridge.LoadParameters(raw)
+func start(raw map[string]any) (string, error) {
+	params, err := bridge.LoadParameters(raw)
+	if err != nil {
+		return "", err
+	}
 
 	result, err := ogimage.Draw(params)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	var buf bytes.Buffer
 
-	jpeg.Encode(&buf, result, &jpeg.Options{
-		Quality: 80,
-	})
-	return io.ReadAll(&buf)
+	reader, writer := io.Pipe()
+	encoder := base64.NewEncoder(base64.RawStdEncoding, writer)
+	go func() {
+		err = jpeg.Encode(encoder, result, &jpeg.Options{
+			Quality: 100,
+		})
+		writer.Close()
+	}()
+
+	data, err := io.ReadAll(reader)
+	if err != nil {
+		return "", err
+	}
+
+	return string(data), err
 }
 
 func main() {

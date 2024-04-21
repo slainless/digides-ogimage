@@ -14,7 +14,7 @@ const (
 )
 
 func Resize(img image.Image, w int, h int) *image.RGBA {
-	resizing := gift.New(gift.ResizeToFill(225, 225, gift.LanczosResampling, gift.CenterAnchor))
+	resizing := gift.New(gift.ResizeToFill(w, h, gift.LanczosResampling, gift.CenterAnchor))
 	icon := image.NewRGBA(resizing.Bounds(img.Bounds()))
 	resizing.Draw(icon, img)
 

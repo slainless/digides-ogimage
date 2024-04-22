@@ -7,9 +7,7 @@ import type { WorkerOptions } from 'miniflare'
 
 export default defineConfig({
   plugins: [
-    goWasm({
-      wasmExecPath: "./src/wasm/wasm_exec.js"
-    }),
+    goWasm(),
     tsconfigPaths(),
     devServer({
       entry: "./src/index.ts",

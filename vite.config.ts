@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import goWasm from 'vite-plugin-golang-wasm'
 import devServer from '@hono/vite-dev-server'
+import cloudflareAdapter from '@hono/vite-dev-server/cloudflare'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import { vitePluginViteNodeMiniflare } from "@hiogawa/vite-node-miniflare"
 import type { WorkerOptions } from 'miniflare'
 
 export default defineConfig({
@@ -11,15 +11,9 @@ export default defineConfig({
       wasmExecPath: "./src/wasm/wasm_exec.js"
     }),
     tsconfigPaths(),
-    vitePluginViteNodeMiniflare({
+    devServer({
       entry: "./src/index.ts",
-      hmr: true,
-      miniflareOptions(options) {
-        const opts = options as WorkerOptions
-        opts.compatibilityFlags = ["nodejs_compat"]
-        opts.r2Buckets = ["R2_ASSETS"]
-        opts.bindings!.PAYLOAD_ENCRYPTION_SECRET = "ThlIVaRD1kwBGpdeyutAx6yKwb4ZKuIMqqhrNoeA9X0"
-      },
+      adapter: cloudflareAdapter
     }),
   ],
   build: {

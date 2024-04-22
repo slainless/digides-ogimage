@@ -1,8 +1,8 @@
 # digides-ogimage
 
-<center>
+<p align="center">
   <img src="./assets/example.jpeg" width="80%"/>
-</center>
+</p>
 
 A cloudflare worker to generate OpenGraph banner, configured specifically for Digital Desa Profile Website.
 

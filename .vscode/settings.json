@@ -1,9 +1,9 @@
 {
   "go.buildTags": "",
-  "go.toolsEnvVars": {
-    "GOOS": "js",
-    "GOARCH": "wasm"
-  },
+  // "go.toolsEnvVars": {
+  //   "GOOS": "js",
+  //   "GOARCH": "wasm"
+  // },
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
     "editor.formatOnSave": true

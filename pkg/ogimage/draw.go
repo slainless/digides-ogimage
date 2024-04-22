@@ -6,6 +6,8 @@ import (
 	"github.com/fogleman/gg"
 )
 
+// 0.262145631 op/s
+// using parameters: [github.com/slainless/digides-ogimage/pkg/ogimage_test.LoadParameters]
 func Draw(param *Parameters) (image.Image, error) {
 	const (
 		canvasBoundX = 1200
@@ -15,6 +17,7 @@ func Draw(param *Parameters) (image.Image, error) {
 	)
 
 	canvas := gg.NewContext(canvasBoundX, canvasBoundY)
+
 	elements, err := drawElements(param)
 	if err != nil {
 		return nil, err

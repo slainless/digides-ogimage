@@ -8,7 +8,7 @@ import (
 	"github.com/slainless/digides-ogimage/pkg/ogimage"
 )
 
-// 0.314484976 op/s
+// 0.314484976 s/op
 // using parameters: [github.com/slainless/digides-ogimage/pkg/bridge_test.MockParameters]
 func Start(raw map[string]any) (string, error) {
 	params, err := LoadParameters(raw)

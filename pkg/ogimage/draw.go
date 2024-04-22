@@ -6,7 +6,7 @@ import (
 	"github.com/fogleman/gg"
 )
 
-// 0.262145631 op/s
+// 0.262145631 s/op
 // using parameters: [github.com/slainless/digides-ogimage/pkg/ogimage_test.LoadParameters]
 func Draw(param *Parameters) (image.Image, error) {
 	const (

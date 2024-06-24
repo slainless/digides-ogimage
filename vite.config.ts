@@ -4,6 +4,11 @@ import cloudflareAdapter from '@hono/vite-dev-server/cloudflare'
 import { readFile } from 'node:fs/promises'
 
 export default defineConfig({
+  test: {
+    // onConsoleLog(log, type) {
+    //   return true
+    // },
+  },
   plugins: [
     devServer({
       entry: "./src/index.ts",

@@ -25,3 +25,7 @@ echo "// @ts-nocheck" > .test/wasm_exec.js
 echo "import './wasm_exec.cjs'" >> .test/wasm_exec.js
 sed -i 's#"./wasm_exec"#"./wasm_exec.cjs"#' .test/wasm_exec_node.cjs
 echo "Done creating esm stub..."
+
+echo "Putting example R2 objects..."
+./scripts/put_example_r2_objects.sh
+echo "Done putting example R2 objects."

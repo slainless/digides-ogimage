@@ -21,27 +21,27 @@ func parseParameters(input js.Value) (*Parameters, error) {
 	fontTitle := input.Get("titleFont")
 	fontSubtitle := input.Get("subtitleFont")
 
-	if bridge.IsString(title) == false || bridge.Falsey(title) {
+	if !bridge.IsString(title) || bridge.Falsey(title) {
 		return nil, errors.Join(ErrParametersInvalidField, errors.New("title must not be empty"))
 	}
 
-	if bridge.IsString(subtitle) == false || bridge.Falsey(subtitle) {
+	if !bridge.IsString(subtitle) || bridge.Falsey(subtitle) {
 		return nil, errors.Join(ErrParametersInvalidField, errors.New("subtitle must not be empty"))
 	}
 
-	if bridge.IsString(icon) == false || bridge.Falsey(icon) {
+	if !bridge.IsString(icon) || bridge.Falsey(icon) {
 		return nil, errors.Join(ErrParametersInvalidField, errors.New("icon must not be empty"))
 	}
 
-	if bridge.IsString(background) == false || bridge.Falsey(background) {
+	if !bridge.IsString(background) || bridge.Falsey(background) {
 		return nil, errors.Join(ErrParametersInvalidField, errors.New("background must not be empty"))
 	}
 
-	if bridge.IsNullish(fontTitle) == false && bridge.IsString(fontTitle) == false {
+	if !bridge.IsNullish(fontTitle) && !bridge.IsString(fontTitle) {
 		return nil, errors.Join(ErrParametersInvalidField, errors.New("titleFont must be a string"))
 	}
 
-	if bridge.IsNullish(fontSubtitle) == false && bridge.IsString(fontSubtitle) == false {
+	if !bridge.IsNullish(fontSubtitle) && !bridge.IsString(fontSubtitle) {
 		return nil, errors.Join(ErrParametersInvalidField, errors.New("subtitleFont must be a string"))
 	}
 

@@ -9,6 +9,6 @@
     "GOARCH": "wasm",
   },
   "go.testFlags": [
-    "-exec=\"${workspaceFolder}/dist/go_js_wasm_exec\""
+    "-exec=\"${workspaceFolder}/.test/go_js_wasm_exec\""
   ]
 }

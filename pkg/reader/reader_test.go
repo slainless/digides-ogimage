@@ -86,21 +86,6 @@ func TestDefaultReader512(t *testing.T) {
 	assert.Equal(t, buffer, returnedBuffer)
 }
 
-func BenchmarkDefaultReader512(b *testing.B) {
-	buffer := randomBuffer(512)
-	for i := 0; i < b.N; i++ {
-		reader, err := prepareReader(buffer)
-		if err != nil {
-			b.Fatal(err)
-		}
-
-		_, err = io.ReadAll(reader)
-		if err != nil {
-			b.Fatal(err)
-		}
-	}
-}
-
 func TestNativeDefaultReader512(t *testing.T) {
 	buffer := randomBuffer(512)
 	resultingJsBuffer, err := nativeReading(buffer)
@@ -109,19 +94,6 @@ func TestNativeDefaultReader512(t *testing.T) {
 	resultingBuffer := make([]byte, len(buffer))
 	js.CopyBytesToGo(resultingBuffer, *resultingJsBuffer)
 	assert.Equal(t, buffer, resultingBuffer)
-}
-
-func BenchmarkNativeDefaultReader512(b *testing.B) {
-	buffer := randomBuffer(512)
-	for i := 0; i < b.N; i++ {
-		resultingJsBuffer, err := nativeReading(buffer)
-		if err != nil {
-			b.Fatal(err)
-		}
-
-		resultingBuffer := make([]byte, len(buffer))
-		js.CopyBytesToGo(resultingBuffer, *resultingJsBuffer)
-	}
 }
 
 func TestDefaultReader1024(t *testing.T) {

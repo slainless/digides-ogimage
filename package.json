@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "dev": "vite",
-    "benchmark": "vitest bench"
+    "dev": "vite"
   },
   "dependencies": {
     "@sinclair/typebox": "^0.32.34",

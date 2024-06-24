@@ -12,9 +12,5 @@
     ],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "paths": {
-      "Modules/*": ["./src/modules/*"],
-      "Go/*": ["./pkg/*"],
-    }
   },
 }

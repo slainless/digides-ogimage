@@ -4,6 +4,7 @@
     "benchmark": "vite-node ./src/app.benchmark.test.ts"
   },
   "dependencies": {
+    "@sinclair/typebox": "^0.32.34",
     "hono": "^4.1.4"
   },
   "devDependencies": {

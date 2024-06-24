@@ -1,4 +1,4 @@
-package ogimage
+package draw
 
 import (
 	"image"

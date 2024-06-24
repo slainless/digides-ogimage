@@ -1,4 +1,4 @@
-package ogimage
+package draw
 
 import (
 	"errors"
@@ -9,10 +9,9 @@ import (
 	"github.com/disintegration/gift"
 	"github.com/fogleman/gg"
 	"github.com/goki/freetype/truetype"
-	"github.com/slainless/digides-ogimage/pkg/fonts"
 )
 
-func drawStrings(param *Parameters) (image.Image, error) {
+func drawStrings(param Parameters) (image.Image, error) {
 	const (
 		debug = false
 
@@ -25,10 +24,10 @@ func drawStrings(param *Parameters) (image.Image, error) {
 	)
 
 	var (
-		titleFontFace = truetype.NewFace(fonts.OutfitRegularFont, &truetype.Options{
+		titleFontFace = truetype.NewFace(param.FontFaceTitle(), &truetype.Options{
 			Size: titleFontSize,
 		})
-		subtitleFontFace = truetype.NewFace(fonts.OutfitRegularFont, &truetype.Options{
+		subtitleFontFace = truetype.NewFace(param.FontFaceSubtitle(), &truetype.Options{
 			Size: subtitleFontSize,
 		})
 
@@ -42,13 +41,13 @@ func drawStrings(param *Parameters) (image.Image, error) {
 	canvas := gg.NewContext(int(math.Round(canvasWidth)), int(math.Round(canvasHeight)))
 
 	canvas.SetFontFace(titleFontFace)
-	titleWidth, _ := canvas.MeasureString(param.Title)
+	titleWidth, _ := canvas.MeasureString(param.Title())
 	if titleWidth >= canvasWidth {
 		return nil, errors.New("title surpasses maximum text length limit, consider using another smaller font-face or reduce string length")
 	}
 
 	canvas.SetFontFace(subtitleFontFace)
-	_, _subtitleHeight := canvas.MeasureMultilineString(param.Subtitle, 0)
+	_, _subtitleHeight := canvas.MeasureMultilineString(param.Subtitle(), 0)
 	if _subtitleHeight > subtitleHeight*2 {
 		return nil, errors.New("subtitle surpasses maximum text length/height limit, consider using another smaller font-face or reduce string length")
 	}
@@ -61,7 +60,7 @@ func drawStrings(param *Parameters) (image.Image, error) {
 
 	canvas.SetColor(color.NRGBA{255, 255, 255, 255})
 	canvas.SetFontFace(titleFontFace)
-	canvas.DrawString(param.Title, 0, titleAscent)
+	canvas.DrawString(param.Title(), 0, titleAscent)
 
 	if debug {
 		canvas.SetColor(color.NRGBA{0, 255, 0, 20})
@@ -71,7 +70,7 @@ func drawStrings(param *Parameters) (image.Image, error) {
 
 	canvas.SetColor(color.NRGBA{255, 255, 255, 255})
 	canvas.SetFontFace(subtitleFontFace)
-	canvas.DrawStringWrapped(param.Subtitle, 0, titleAscent, 0, 0, float64(canvas.Width()), 0, gg.AlignLeft)
+	canvas.DrawStringWrapped(param.Subtitle(), 0, titleAscent, 0, 0, float64(canvas.Width()), 0, gg.AlignLeft)
 
 	// return canvas.Image(), nil
 

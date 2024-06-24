@@ -1,18 +1,47 @@
-import { defineConfig } from 'vite'
-import goWasm from 'vite-plugin-golang-wasm'
-import devServer from '@hono/vite-dev-server'
+import { ResolvedConfig, defineConfig } from 'vite'
+import devServer, { defaultOptions } from '@hono/vite-dev-server'
 import cloudflareAdapter from '@hono/vite-dev-server/cloudflare'
-import tsconfigPaths from 'vite-tsconfig-paths'
-import type { WorkerOptions } from 'miniflare'
+import { readFile } from 'node:fs/promises'
 
 export default defineConfig({
   plugins: [
-    goWasm(),
-    tsconfigPaths(),
     devServer({
       entry: "./src/index.ts",
-      adapter: cloudflareAdapter
+      adapter: cloudflareAdapter,
+      exclude: [/.*\.wasm$/, ...defaultOptions.exclude],
     }),
+    (function wasmPlugin() {
+      let cfg: ResolvedConfig
+      return {
+        name: "wasm",
+        configResolved(config) {
+          cfg = config
+        },
+        async load(this, id) {
+          if (!id.endsWith(".wasm")) return
+          return ""
+        },
+        async transform(this, code, id, options) {
+          if (!id.endsWith(".wasm")) return
+
+          let content: string
+          const data = await readFile(id)
+
+          if (cfg.command == 'serve') {
+            content = `"data:application/wasm;base64,` + Buffer.from(data).toString("base64") + `"`
+          } else {
+            const emittedFile = this.emitFile({
+              type: "asset",
+              source: data
+            })
+            content = `import.meta.ROLLUP_FILE_URL_` + emittedFile
+          }
+
+          return `const wasm = await fetch(${content}).then(r => r.arrayBuffer());` +
+            `export default wasm`
+        },
+      }
+    })(),
   ],
   build: {
     manifest: true,

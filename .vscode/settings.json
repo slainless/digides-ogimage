@@ -1,11 +1,14 @@
 {
-  "go.buildTags": "",
-  // "go.toolsEnvVars": {
-  //   "GOOS": "js",
-  //   "GOARCH": "wasm"
-  // },
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
     "editor.formatOnSave": true
-  }
+  },
+  "go.alternateTools": {},
+  "go.toolsEnvVars": {
+    "GOOS": "js",
+    "GOARCH": "wasm",
+  },
+  "go.testFlags": [
+    "-exec=\"${workspaceFolder}/dist/go_js_wasm_exec\""
+  ]
 }

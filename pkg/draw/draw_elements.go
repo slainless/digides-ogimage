@@ -1,4 +1,4 @@
-package ogimage
+package draw
 
 import (
 	"image"
@@ -8,7 +8,7 @@ import (
 	"github.com/fogleman/gg"
 )
 
-func drawElements(param *Parameters) (image.Image, error) {
+func drawElements(param Parameters) (image.Image, error) {
 	const (
 		debug = false
 
@@ -40,7 +40,7 @@ func drawElements(param *Parameters) (image.Image, error) {
 		canvas.Fill()
 	}
 
-	icon := ResizeToFit(param.Icon, iconSize, iconSize)
+	icon := ResizeToFit(param.Icon(), iconSize, iconSize)
 	canvas.DrawImage(icon, canvasMargin, canvasMargin)
 
 	if debug {

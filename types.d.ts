@@ -7,3 +7,10 @@ declare interface Env {
     [K: string]: undefined | any
   }
 }
+
+declare module "*.wasm" {
+  const url: ArrayBuffer
+  export default url
+}
+
+declare const Go: any

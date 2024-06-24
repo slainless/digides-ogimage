@@ -1,4 +1,4 @@
-package ogimage
+package draw
 
 import (
 	"image"
@@ -8,7 +8,7 @@ import (
 
 // 0.262145631 s/op
 // using parameters: [github.com/slainless/digides-ogimage/pkg/ogimage_test.LoadParameters]
-func Draw(param *Parameters) (image.Image, error) {
+func Draw(param Parameters) (image.Image, error) {
 	const (
 		canvasBoundX = 1200
 		canvasBoundY = 630
@@ -23,7 +23,7 @@ func Draw(param *Parameters) (image.Image, error) {
 		return nil, err
 	}
 
-	background := ResizeToFill(param.Background, canvasBoundX, canvasBoundY)
+	background := ResizeToFill(param.Background(), canvasBoundX, canvasBoundY)
 	canvas.DrawImage(background, 0, 0)
 
 	resizedElements := ResizeToFit(elements, canvasBoundX-(margin*2), canvasBoundY-(margin*2))

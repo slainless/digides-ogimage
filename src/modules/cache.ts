@@ -9,9 +9,12 @@ export class WarmCache {
     return this.weakMap
   }
 
-  get<T>(key: any, defaultValue: () => T): T {
+  get<T>(key: any, defaultValue?: () => T): T {
     const map = this.decideMap(key)
-    return map.get(key) ?? defaultValue()
+    if (defaultValue == null || map.has(key)) return map.get(key)
+    const value = defaultValue()
+    map.set(key, value)
+    return value
   }
 
   set(key: any, value: any) {

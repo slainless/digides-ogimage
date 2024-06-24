@@ -1,7 +1,6 @@
 package wasm
 
 import (
-	"errors"
 	"image/jpeg"
 	"io"
 	"syscall/js"
@@ -15,20 +14,14 @@ import (
 // function draw(parameters: payload, bucketName: string, env: any): Promise<ReadableStream>
 var JsDraw = js.FuncOf(func(this js.Value, args []js.Value) any {
 	rawParameters := args[0]
-	rawBucketName := args[1]
-	env := args[2]
+	bucket := args[1]
 
 	return js.Global().Get("Promise").New(js.FuncOf(func(this js.Value, args []js.Value) any {
 		resolve := args[0]
 		reject := args[1]
 
 		go func() {
-			if !bridge.IsString(rawBucketName) || bridge.Falsey(rawBucketName) {
-				reject.Invoke(bridge.ToJsTypeError(errors.New("bucketName must not be empty")))
-				return
-			}
-
-			parameters, err := LoadParameters(rawParameters, rawBucketName.String(), env)
+			parameters, err := LoadParameters(rawParameters, bucket)
 			if err != nil {
 				switch err {
 				case ErrBucketNotFound:

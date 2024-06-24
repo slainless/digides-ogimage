@@ -15,7 +15,7 @@ export function main(): Handler<Env> {
     }
 
     const parameters = await decode(decryptionKey, data)
-    const image = await go_draw(parameters, 'R2_ASSETS', c.env)
+    const image = await go_draw(parameters, c.env.R2_ASSETS)
 
     return new Response(image, {
       status: 200,

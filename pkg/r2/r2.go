@@ -10,10 +10,18 @@ import (
 	"github.com/slainless/digides-ogimage/pkg/bridge"
 )
 
+var (
+	ErrFileNotFound = errors.New("file not found")
+)
+
 func GetFile(r2Path string, bucket js.Value) ([]byte, error) {
 	response, jsErr, _ := bridge.ResolvePromise(bucket.Call("get", r2Path))
-	if response == nil {
+	if jsErr != nil {
 		return nil, bridge.FromJsError(*jsErr)
+	}
+
+	if bridge.IsNullish(*response) {
+		return nil, ErrFileNotFound
 	}
 
 	// Legacy code using ReadableStream, after benchmarking

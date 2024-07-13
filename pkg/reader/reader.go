@@ -1,7 +1,6 @@
 package reader
 
 import (
-	"errors"
 	"io"
 	"syscall/js"
 
@@ -9,8 +8,8 @@ import (
 )
 
 var (
-	ErrInvalidStream        = errors.New("not a valid readable stream")
-	ErrInvalidReadingResult = errors.New("invalid reading result: either data returned as null, non-object, or invalid object")
+	ErrInvalidStream        = bridge.NewJSTypeError("StreamError", "not a valid readable stream")
+	ErrInvalidReadingResult = bridge.NewJSTypeError("StreamError", "invalid reading result: either data returned as null, non-object, or invalid object")
 )
 
 type ReadableStream struct {

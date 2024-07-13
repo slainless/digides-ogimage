@@ -1,10 +1,8 @@
 package wasm
 
 import (
-	"errors"
 	"syscall/js"
 
-	"github.com/slainless/digides-ogimage/pkg/bridge"
 	"github.com/slainless/digides-ogimage/pkg/fonts"
 	"github.com/slainless/digides-ogimage/pkg/r2"
 )
@@ -20,30 +18,6 @@ func parseParameters(input js.Value) (*Parameters, error) {
 	background := input.Get("background")
 	fontTitle := input.Get("titleFont")
 	fontSubtitle := input.Get("subtitleFont")
-
-	if !bridge.IsString(title) || bridge.Falsey(title) {
-		return nil, errors.Join(ErrParametersInvalidField, errors.New("title must not be empty"))
-	}
-
-	if !bridge.IsString(subtitle) || bridge.Falsey(subtitle) {
-		return nil, errors.Join(ErrParametersInvalidField, errors.New("subtitle must not be empty"))
-	}
-
-	if !bridge.IsString(icon) || bridge.Falsey(icon) {
-		return nil, errors.Join(ErrParametersInvalidField, errors.New("icon must not be empty"))
-	}
-
-	if !bridge.IsString(background) || bridge.Falsey(background) {
-		return nil, errors.Join(ErrParametersInvalidField, errors.New("background must not be empty"))
-	}
-
-	if !bridge.IsNullish(fontTitle) && !bridge.IsString(fontTitle) {
-		return nil, errors.Join(ErrParametersInvalidField, errors.New("titleFont must be a string"))
-	}
-
-	if !bridge.IsNullish(fontSubtitle) && !bridge.IsString(fontSubtitle) {
-		return nil, errors.Join(ErrParametersInvalidField, errors.New("subtitleFont must be a string"))
-	}
 
 	return &Parameters{
 		title:            title.String(),

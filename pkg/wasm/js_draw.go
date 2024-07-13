@@ -23,15 +23,6 @@ var JsDraw = js.FuncOf(func(this js.Value, args []js.Value) any {
 		go func() {
 			parameters, err := LoadParameters(rawParameters, bucket)
 			if err != nil {
-				switch err {
-				case ErrBucketNotFound:
-				case ErrInvalidCloudflareEnv:
-				case ErrParametersInvalid:
-				case ErrParametersInvalidField:
-					reject.Invoke(bridge.ToJsTypeError(err))
-					return
-				}
-
 				reject.Invoke(bridge.ToJsError(err))
 				return
 			}

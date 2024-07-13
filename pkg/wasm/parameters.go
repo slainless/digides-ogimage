@@ -1,18 +1,18 @@
 package wasm
 
 import (
-	"errors"
 	"image"
 
 	"github.com/goki/freetype/truetype"
+	"github.com/slainless/digides-ogimage/pkg/bridge"
 )
 
 var (
-	ErrParametersInvalid      = errors.New("Invalid parameters")
-	ErrParametersInvalidField = errors.New("Invalid parameters field")
+	ErrParametersInvalid      = bridge.NewJSTypeError("ParameterError", "Invalid parameters")
+	ErrParametersInvalidField = bridge.NewJSTypeError("ParameterError", "Invalid parameters field")
 
-	ErrInvalidCloudflareEnv = errors.New("Invalid cloudflare env")
-	ErrBucketNotFound       = errors.New("Bucket not found")
+	ErrInvalidCloudflareEnv = bridge.NewJSTypeError("EnvError", "Invalid cloudflare env")
+	ErrBucketNotFound       = bridge.NewJSTypeError("EnvError", "Bucket not found")
 )
 
 type Parameters struct {

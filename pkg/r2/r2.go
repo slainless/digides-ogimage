@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	ErrFileNotFound = errors.New("file not found")
+	ErrFileNotFound = bridge.NewJSError("R2Error", "file not found")
 )
 
 func GetFile(r2Path string, bucket js.Value) ([]byte, error) {

@@ -1,12 +1,11 @@
 package bridge
 
 import (
-	"errors"
 	"syscall/js"
 )
 
 var (
-	ErrNotPromise = errors.New("not a valid promise")
+	ErrNotPromise = NewJSTypeError("PromiseError", "not a valid promise")
 )
 
 func ResolvePromise(promise js.Value) (result *js.Value, err *js.Value, goErr error) {

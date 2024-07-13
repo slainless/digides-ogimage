@@ -1,3 +1,4 @@
+main = "dist/index.js"
 compatibility_flags = ["nodejs_compat"]
 
 [[r2_buckets]]

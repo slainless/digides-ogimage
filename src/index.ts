@@ -9,13 +9,7 @@ import wasm from '../.generated/drawer.wasm'
 
 const go = new Go()
 await WebAssembly.instantiate(wasm, go.importObject).then((result) => {
-  // @ts-expect-error
-  if (result.instance != null) {
-    // @ts-expect-error
-    go.run(result.instance)
-  } else {
-    go.run(result)
-  }
+  go.run(result)
 })
 
 const app = new Hono<Env>()

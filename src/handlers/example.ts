@@ -1,7 +1,8 @@
 import { Handler } from 'hono'
 import { cache } from '../core/cache'
 import { cacheKey, consumeKey } from '../core/crypto'
-import { Payload, encode } from '../core/payload'
+import { encode } from '../core/payload'
+import type { Payload } from '../schema/generated/payload'
 
 export function example(): Handler<Env> {
   return async (c) => {

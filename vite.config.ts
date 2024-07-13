@@ -57,9 +57,11 @@ export default defineConfig({
     },
     ssr: true,
     ssrEmitAssets: true,
+    target: "esnext",
   },
   ssr: {
     target: "webworker",
-    noExternal: ["node:buffer"],
+    noExternal: true,
+    external: ['node:buffer']
   },
 })

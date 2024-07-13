@@ -1,5 +1,10 @@
 main = "src/index.ts"
+compatibility_date = "2024-07-13"
 compatibility_flags = ["nodejs_compat"]
+
+[[rules]]
+type = "CompiledWasm"
+globs = ["**/*.wasm"]
 
 [[r2_buckets]]
 binding = "R2_ASSETS"

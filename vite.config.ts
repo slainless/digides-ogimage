@@ -2,6 +2,7 @@ import { ResolvedConfig, defineConfig } from 'vite'
 import devServer, { defaultOptions } from '@hono/vite-dev-server'
 import cloudflareAdapter from '@hono/vite-dev-server/cloudflare'
 import { readFile } from 'node:fs/promises'
+import { basename } from 'node:path'
 
 export default defineConfig({
   test: {
@@ -37,6 +38,7 @@ export default defineConfig({
           } else {
             const emittedFile = this.emitFile({
               type: "asset",
+              name: basename(id),
               source: data
             })
             content = `import.meta.ROLLUP_FILE_URL_` + emittedFile

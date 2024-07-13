@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "deploy": "bash ./scripts/build_wasm.sh && wrangler deploy",
     "codegen": "typia generate --input src/schema/templates --output src/schema/generated",
     "prepare": "ts-patch install && typia patch && bun run codegen"
   },

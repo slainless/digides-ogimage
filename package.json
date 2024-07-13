@@ -1,6 +1,9 @@
 {
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build",
+    "start": "wrangler dev",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "@sinclair/typebox": "^0.32.34",

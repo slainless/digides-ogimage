@@ -15,7 +15,8 @@ cp $(go env GOROOT)/misc/wasm/wasm_exec_node.js .test/wasm_exec_node.cjs
 echo "Done copying wasm exec environment for testing."
 
 echo "Copying wasm exec environment for building..."
-cp $(go env GOROOT)/misc/wasm/wasm_exec.js dist/wasm_exec.cjs
+mkdir -p .generated
+cp $(go env GOROOT)/misc/wasm/wasm_exec.js .generated/wasm_exec.cjs
 echo "Done copying wasm exec environment for building"
 
 echo "Creating esm stub..."

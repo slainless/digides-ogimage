@@ -4,8 +4,8 @@ import { randomKeyGenerator } from './handlers/random_key'
 import { example } from './handlers/example'
 import { main } from './handlers/main'
 
-import '../dist/wasm_exec.cjs'
-import wasm from '../dist/drawer.wasm'
+import '../.generated/wasm_exec.cjs'
+import wasm from '../.generated/drawer.wasm'
 
 const go = new Go()
 await WebAssembly.instantiate(wasm, go.importObject).then((result) => {

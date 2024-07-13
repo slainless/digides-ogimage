@@ -1,8 +1,9 @@
-import { ResolvedConfig, defineConfig } from 'vite'
+import { Plugin, ResolvedConfig, defineConfig } from 'vite'
 import devServer, { defaultOptions } from '@hono/vite-dev-server'
 import cloudflareAdapter from '@hono/vite-dev-server/cloudflare'
 import { readFile } from 'node:fs/promises'
 import { basename } from 'node:path'
+import UnpluginTypia from '@ryoppippi/unplugin-typia/vite'
 
 export default defineConfig({
   test: {
@@ -16,6 +17,7 @@ export default defineConfig({
       adapter: cloudflareAdapter,
       exclude: [/.*\.wasm$/, ...defaultOptions.exclude],
     }),
+    UnpluginTypia(),
     (function wasmPlugin() {
       let cfg: ResolvedConfig
       return {

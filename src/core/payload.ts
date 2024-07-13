@@ -1,23 +1,15 @@
 import { Buffer } from 'node:buffer'
 import { logger } from './debug'
-import { Static, Type } from '@sinclair/typebox'
-import { Value } from '@sinclair/typebox/value'
-// import { TypeCompiler } from '@sinclair/typebox/compiler'
+import { assert } from 'typia'
 
-export const ErrorInvalidPayload = new Error("Invalid payload")
-
-export const PayloadSchema = Type.Object({
-  title: Type.String(),
-  subtitle: Type.String(),
-  icon: Type.String(),
-  background: Type.String(),
-  titleFont: Type.Optional(Type.String()),
-  subtitleFont: Type.Optional(Type.String()),
-})
-
-// export const CompiledPayloadSchema = TypeCompiler.Compile(PayloadSchema)
-
-export type Payload = Static<typeof PayloadSchema>
+export interface Payload {
+  title: string
+  subtitle: string
+  icon: string
+  background: string
+  titleFont?: string
+  subtitleFont?: string
+}
 
 export async function decode(key: CryptoKey, data: string): Promise<Payload> {
   const arr = Buffer.from(data, "base64url")
@@ -30,10 +22,7 @@ export async function decode(key: CryptoKey, data: string): Promise<Payload> {
   }, key, encrypted)
 
   const parsed = JSON.parse(Buffer.from(decrypted).toString("utf8"))
-  // if (Value.Check(PayloadSchema, parsed)) {
-  //   throw ErrorInvalidPayload
-  // }
-  return parsed as Payload
+  return assert<Payload>(parsed)
 }
 
 export async function encode(key: CryptoKey, payload: Payload): Promise<string> {

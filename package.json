@@ -3,15 +3,19 @@
     "dev": "vite",
     "build": "vite build",
     "start": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "prepare": "ts-patch install && typia patch"
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.32.34",
-    "hono": "^4.4.13"
+    "hono": "^4.4.13",
+    "typia": "^6.5.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240208.0",
     "@hono/vite-dev-server": "^0.13.1",
+    "@ryoppippi/unplugin-typia": "npm:@jsr/ryoppippi__unplugin-typia",
+    "ts-patch": "latest",
+    "typescript": "5.5.2",
     "vite": "^5.3.3",
     "vitest": "^2.0.2",
     "wrangler": "^3.64.0"

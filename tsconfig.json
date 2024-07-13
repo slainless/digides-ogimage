@@ -12,5 +12,11 @@
     ],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-  },
+    "plugins": [
+      {
+        "transform": "typia/lib/transform"
+      }
+    ],
+    "strictNullChecks": true
+  }
 }

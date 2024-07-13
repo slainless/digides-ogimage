@@ -9,4 +9,4 @@ globs = ["**/*.wasm"]
 
 [[r2_buckets]]
 binding = "R2_ASSETS"
-bucket_name = "digides_assets_file"
+bucket_name = "digides-assets-file"

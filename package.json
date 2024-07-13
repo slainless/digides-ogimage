@@ -1,8 +1,6 @@
 {
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "start": "wrangler dev",
+    "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "codegen": "typia generate --input src/schema/templates --output src/schema/generated",
     "prepare": "ts-patch install && typia patch && bun run codegen"
@@ -17,7 +15,6 @@
     "@ryoppippi/unplugin-typia": "npm:@jsr/ryoppippi__unplugin-typia",
     "ts-patch": "latest",
     "typescript": "5.5.2",
-    "vite": "^5.3.3",
     "vitest": "^2.0.2",
     "wrangler": "^3.64.0"
   },

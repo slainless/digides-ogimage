@@ -1,11 +1,19 @@
 import { Handler } from 'hono'
 import { decode } from '../core/payload'
 import { cache } from '../core/cache'
-import { cacheKey, consumeKey } from '../core/crypto'
+import { decryptCacheKey, consumeKey } from '../core/crypto'
+import { goKey } from '../core/wasm'
+
+import '../../.generated/wasm_exec.cjs'
+import wasm from '../../.generated/drawer.wasm'
+
+const go = new Go()
+const instance = await WebAssembly.instantiate(wasm, go.importObject)
 
 export function main(): Handler<Env> {
   return async (c) => {
-    const decryptionKey = await cache.get(cacheKey, () => consumeKey(c.env.PAYLOAD_ENCRYPTION_SECRET))
+    cache.get(goKey, () => go.run(instance))
+    const decryptionKey = await cache.get(decryptCacheKey, () => consumeKey(c.env.PAYLOAD_ENCRYPTION_SECRET))
     const data = c.req.query("d")
 
     if (data == null) {

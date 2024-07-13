@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
 
-export const cacheKey = Symbol()
+export const decryptCacheKey = Symbol()
 
 export async function generateKey(): Promise<string> {
   const key = await crypto.subtle.generateKey({

@@ -4,14 +4,6 @@ import { randomKeyGenerator } from './handlers/random_key'
 import { example } from './handlers/example'
 import { main } from './handlers/main'
 
-import '../.generated/wasm_exec.cjs'
-import wasm from '../.generated/drawer.wasm'
-
-const go = new Go()
-await WebAssembly.instantiate(wasm, go.importObject).then((result) => {
-  go.run(result)
-})
-
 const app = new Hono<Env>()
 app.get('/', main())
 

@@ -1,6 +1,6 @@
 import { Handler } from 'hono'
 import { cache } from '../core/cache'
-import { cacheKey, consumeKey } from '../core/crypto'
+import { decryptCacheKey, consumeKey } from '../core/crypto'
 import { encode } from '../core/payload'
 import type { Payload } from '../schema/generated/payload'
 
@@ -9,7 +9,7 @@ export function example(): Handler<Env> {
     if (navigator.userAgent.startsWith("Cloudflare"))
       return new Response("Not available in Worker!", { status: 501 })
 
-    const key = await cache.get(cacheKey, () => consumeKey(c.env.PAYLOAD_ENCRYPTION_SECRET!))
+    const key = await cache.get(decryptCacheKey, () => consumeKey(c.env.PAYLOAD_ENCRYPTION_SECRET!))
     const payload: Payload = {
       title: "This is a title",
       subtitle: "This is subtitle",

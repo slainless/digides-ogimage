@@ -4,7 +4,8 @@
     "build": "vite build",
     "start": "wrangler dev",
     "deploy": "wrangler deploy",
-    "prepare": "ts-patch install && typia patch"
+    "codegen": "typia generate --input src/schema/templates --output src/schema/generated",
+    "prepare": "ts-patch install && typia patch && bun run codegen"
   },
   "dependencies": {
     "hono": "^4.4.13",

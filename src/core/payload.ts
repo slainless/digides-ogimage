@@ -1,15 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { logger } from './debug'
-import { assert } from 'typia'
-
-export interface Payload {
-  title: string
-  subtitle: string
-  icon: string
-  background: string
-  titleFont?: string
-  subtitleFont?: string
-}
+import { Payload, assertPayload } from '../schema/generated/payload'
 
 export async function decode(key: CryptoKey, data: string): Promise<Payload> {
   const arr = Buffer.from(data, "base64url")
@@ -22,7 +12,7 @@ export async function decode(key: CryptoKey, data: string): Promise<Payload> {
   }, key, encrypted)
 
   const parsed = JSON.parse(Buffer.from(decrypted).toString("utf8"))
-  return assert<Payload>(parsed)
+  return assertPayload(parsed)
 }
 
 export async function encode(key: CryptoKey, payload: Payload): Promise<string> {

@@ -4,14 +4,14 @@
   },
   "dependencies": {
     "@sinclair/typebox": "^0.32.34",
-    "hono": "^4.1.4"
+    "hono": "^4.4.13"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240208.0",
-    "@hono/vite-dev-server": "^0.11.1",
-    "vite": "^5.2.6",
-    "vitest": "^1.6.0",
-    "wrangler": "^3.51.2"
+    "@hono/vite-dev-server": "^0.13.1",
+    "vite": "^5.3.3",
+    "vitest": "^2.0.2",
+    "wrangler": "^3.64.0"
   },
   "type": "module"
 }

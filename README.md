@@ -10,6 +10,8 @@ Using Hono for edge framework, while Go is used to draw the image.
 
 Live at https://og-image-generator.digital-desa.workers.dev/.
 
+[Click here to view render example.](https://og-image-generator.digital-desa.workers.dev/?d=JfDxtkTsSNXx8lDF4BqMVcHUla4WE59lF6SeUCmRr61FvhaaPrmDfkz41Zt0C1lUKGX0X-ywirXMyPLTW78arco6dyhnnIl4OWgi6g1Evf8rFSh6iMrn1OPB7U7OKAb7-2lLFa5RfmmmAQ2U9wrtIn5EHVFGi8jnrUewocOO5vK2pdSxXaFJnSlM47ULN3fHxuqnYGdi0KT7RjyZ7et1ZAOzA-GD9PZTLhZBlc-H48FOIx9zmLo-E8UBacdm3hHDKXUuociO8e8VJzEaZ1bLhhb8ttipzIzn7wgrQ3PUUjHCar8eCd06jg)
+
 ## Performance
 
 To be honest, the result is a bit disappointing, taking ~2s average to render. Well, I'm not expecting too much with this kind of setup.

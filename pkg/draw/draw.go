@@ -3,6 +3,7 @@ package draw
 import (
 	"image"
 
+	"github.com/disintegration/gift"
 	"github.com/fogleman/gg"
 )
 
@@ -10,24 +11,55 @@ import (
 // using parameters: [github.com/slainless/digides-ogimage/pkg/ogimage_test.LoadParameters]
 func Draw(param Parameters) (image.Image, error) {
 	const (
-		canvasBoundX = 1200
-		canvasBoundY = 630
+		canvasWidth  = 1200
+		canvasHeight = 630
 
-		margin = 95
+		canvasMarginInline = 95
+
+		elementRatio    = 2.805
+		elementMargin   = 65
+		iconToStringGap = 60
 	)
 
-	canvas := gg.NewContext(canvasBoundX, canvasBoundY)
+	img := image.NewRGBA(image.Rect(0, 0, canvasWidth, canvasHeight))
+	canvas := gg.NewContextForRGBA(img)
 
-	elements, err := drawElements(param)
-	if err != nil {
-		return nil, err
-	}
+	// draw the background
+	filter := NewResizeToFill(canvasWidth, canvasHeight)
+	filter.DrawAt(img, param.Background(), image.Pt(0, 0), gift.CopyOperator)
 
-	background := ResizeToFill(param.Background(), canvasBoundX, canvasBoundY)
-	canvas.DrawImage(background, 0, 0)
+	// draw the backdrop
+	elementWidth := canvasWidth - (canvasMarginInline * 2)
+	elementHeight := float64(elementWidth) / elementRatio
+	canvasMarginBlock := (canvasHeight - elementHeight) / 2
 
-	resizedElements := ResizeToFit(elements, canvasBoundX-(margin*2), canvasBoundY-(margin*2))
-	canvas.DrawImageAnchored(resizedElements, margin, int(canvasBoundY/2), 0, 0.5)
+	elementBound := image.Rect(
+		canvasMarginInline,
+		int(canvasMarginBlock),
+		canvasMarginInline+elementWidth,
+		int(canvasMarginBlock+elementHeight),
+	)
+	drawBackdrop(canvas, elementBound)
 
-	return canvas.Image(), nil
+	// draw the icon
+	iconSize := elementHeight - (elementMargin * 2)
+	iconBound := image.Rect(
+		canvasMarginInline+elementMargin,
+		int(canvasMarginBlock+elementMargin),
+		int(canvasMarginInline+elementMargin+iconSize),
+		int(canvasMarginBlock+elementMargin+iconSize),
+	)
+	drawIcon(img, param.Icon(), iconBound)
+
+	// draw the string
+	stringWidth := canvasWidth - ((canvasMarginInline + elementMargin) * 2) - iconSize - iconToStringGap
+	stringBound := image.Rect(
+		int(canvasMarginInline+elementMargin+iconSize+iconToStringGap),
+		int(canvasMarginBlock+elementMargin),
+		int(canvasMarginInline+elementMargin+iconSize+iconToStringGap+stringWidth),
+		int(canvasMarginBlock+elementMargin+iconSize),
+	)
+	drawStrings(img, param, stringBound)
+
+	return img, nil
 }

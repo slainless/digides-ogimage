@@ -4,6 +4,7 @@ import (
 	"errors"
 	"image"
 	"image/color"
+	"image/draw"
 	"math"
 
 	"github.com/disintegration/gift"
@@ -11,7 +12,7 @@ import (
 	"github.com/goki/freetype/truetype"
 )
 
-func drawStrings(param Parameters) (image.Image, error) {
+func drawStrings(canvas draw.Image, param Parameters, bound image.Rectangle) error {
 	const (
 		debug = false
 
@@ -31,61 +32,67 @@ func drawStrings(param Parameters) (image.Image, error) {
 			Size: subtitleFontSize,
 		})
 
-		titleAscent    = float64(titleFontFace.Metrics().Ascent.Round())
-		subtitleHeight = float64(subtitleFontFace.Metrics().Height.Round())
+		titleAscent     = float64(titleFontFace.Metrics().Ascent.Round())
+		subtitleXHeight = float64(subtitleFontFace.Metrics().XHeight.Round())
+		subtitleHeight  = float64(subtitleFontFace.Metrics().Height.Round())
 
 		canvasHeight = titleAscent + (subtitleHeight * 2)
 		canvasWidth  = canvasHeight * canvasRatio
 	)
 
-	canvas := gg.NewContext(int(math.Round(canvasWidth)), int(math.Round(canvasHeight)))
+	drawCanvas := gg.NewContext(int(math.Round(canvasWidth)), int(math.Round(canvasHeight)))
 
-	canvas.SetFontFace(titleFontFace)
-	titleWidth, _ := canvas.MeasureString(param.Title())
+	drawCanvas.SetFontFace(titleFontFace)
+	titleWidth, _ := drawCanvas.MeasureString(param.Title())
 	if titleWidth >= canvasWidth {
-		return nil, errors.New("title surpasses maximum text length limit, consider using another smaller font-face or reduce string length")
+		return errors.New("title surpasses maximum text length limit, consider using another smaller font-face or reduce string length")
 	}
 
-	canvas.SetFontFace(subtitleFontFace)
-	_, _subtitleHeight := canvas.MeasureMultilineString(param.Subtitle(), 0)
+	drawCanvas.SetFontFace(subtitleFontFace)
+	_, _subtitleHeight := drawCanvas.MeasureMultilineString(param.Subtitle(), 0)
 	if _subtitleHeight > subtitleHeight*2 {
-		return nil, errors.New("subtitle surpasses maximum text length/height limit, consider using another smaller font-face or reduce string length")
+		return errors.New("subtitle surpasses maximum text length/height limit, consider using another smaller font-face or reduce string length")
 	}
 
 	if debug {
-		canvas.SetColor(color.NRGBA{255, 0, 0, 20})
-		canvas.DrawRectangle(0, 0, canvasWidth, titleAscent)
-		canvas.Fill()
+		drawCanvas.SetColor(color.NRGBA{255, 0, 0, 20})
+		drawCanvas.DrawRectangle(0, 0, canvasWidth, titleAscent)
+		drawCanvas.Fill()
 	}
 
-	canvas.SetColor(color.NRGBA{255, 255, 255, 255})
-	canvas.SetFontFace(titleFontFace)
-	canvas.DrawString(param.Title(), 0, titleAscent)
+	drawCanvas.SetColor(color.NRGBA{255, 255, 255, 255})
+	drawCanvas.SetFontFace(titleFontFace)
+	drawCanvas.DrawString(param.Title(), 0, titleAscent)
 
 	if debug {
-		canvas.SetColor(color.NRGBA{0, 255, 0, 20})
-		canvas.DrawRectangle(0, titleFontSize, canvasWidth, subtitleHeight*2)
-		canvas.Fill()
+		drawCanvas.SetColor(color.NRGBA{0, 255, 0, 20})
+		drawCanvas.DrawRectangle(0, titleFontSize, canvasWidth, subtitleHeight*2)
+		drawCanvas.Fill()
 	}
 
-	canvas.SetColor(color.NRGBA{255, 255, 255, 255})
-	canvas.SetFontFace(subtitleFontFace)
-	canvas.DrawStringWrapped(param.Subtitle(), 0, titleAscent, 0, 0, float64(canvas.Width()), 0, gg.AlignLeft)
-
-	// return canvas.Image(), nil
+	drawCanvas.SetColor(color.NRGBA{255, 255, 255, 255})
+	drawCanvas.SetFontFace(subtitleFontFace)
+	drawCanvas.DrawStringWrapped(param.Subtitle(), 0, titleAscent, 0, 0, float64(drawCanvas.Width()), 0, gg.AlignLeft)
 
 	if math.Round(_subtitleHeight) > subtitleHeight {
-		return canvas.Image(), nil
+		return nil
 	}
 
-	result := canvas.Image()
+	result := drawCanvas.Image()
+	resultHeight := titleAscent + _subtitleHeight + subtitleXHeight
 
-	resizing := gift.New()
-	resizing.Add(gift.CropToSize(canvas.Width(), int(math.Round(titleAscent+_subtitleHeight)+1), gift.TopLeftAnchor))
-	resizing.Add(gift.Resize(canvas.Width()*2, 0, gift.LanczosResampling))
+	filter := gift.New()
+	filter.Add(gift.CropToSize(
+		drawCanvas.Width(),
+		int(resultHeight),
+		gift.TopLeftAnchor,
+	))
+	filter.Add(gift.Resize(bound.Dx(), 0, gift.LanczosResampling))
+	point := image.Pt(
+		bound.Min.X,
+		bound.Min.Y+int((float64(bound.Dy())-resultHeight)/2),
+	)
+	filter.DrawAt(canvas, result, point, gift.OverOperator)
 
-	resized := image.NewRGBA(resizing.Bounds(result.Bounds()))
-	resizing.Draw(resized, result)
-
-	return resized, nil
+	return nil
 }

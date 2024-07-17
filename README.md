@@ -14,11 +14,12 @@ Live at https://og-image-generator.digital-desa.workers.dev/.
 
 ## Performance
 
-To be honest, the result is a bit disappointing, taking ~2s average to render. Well, I'm not expecting too much with this kind of setup.
+Managed to reduce drawing time to around 0.8~0.9s/op. I think i can get more performance gain by optimizing the string drawing but I'm pretty
+satisfied with the current drawer. Now, I just need to pass the image to a WEBP or AVIF decoder.
 
 ## Future plan
 
-This repo is production ready, with WASM loaded correctly and service running. However, the performance is too lacking.
+This repo is production ready, with WASM loaded correctly and service running.
 
 Considering that [cloudflare WebGPU API is not ready yet](https://developers.cloudflare.com/durable-objects/api/webgpu/) 
 (and even then, it's only supported on Durable Objects), the only choice is to render using CPU. Not that I know how to program using 

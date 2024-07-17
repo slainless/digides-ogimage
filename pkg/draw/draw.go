@@ -59,7 +59,11 @@ func Draw(param Parameters) (image.Image, error) {
 		int(canvasMarginInline+elementMargin+iconSize+iconToStringGap+stringWidth),
 		int(canvasMarginBlock+elementMargin+iconSize),
 	)
-	drawStrings(img, param, stringBound)
+	err := drawStrings(img, param, stringBound)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return img, nil
 }

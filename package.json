@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "wrangler dev",
+    "dev:wasm": "chokidar \"./pkg/**/*.go\" -c \"./scripts/build_wasm.sh\"",
     "deploy": "bash ./scripts/build_wasm.sh && wrangler deploy",
     "codegen": "typia generate --input src/schema/templates --output src/schema/generated",
     "prepare": "ts-patch install && typia patch && bun run codegen"
@@ -13,6 +14,7 @@
     "@cloudflare/workers-types": "^4.20240208.0",
     "@hono/vite-dev-server": "^0.13.1",
     "@ryoppippi/unplugin-typia": "npm:@jsr/ryoppippi__unplugin-typia",
+    "chokidar-cli": "^3.0.0",
     "ts-patch": "latest",
     "typescript": "5.5.2",
     "vitest": "^2.0.2",

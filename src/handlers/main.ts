@@ -27,7 +27,7 @@ export function main(): Handler<Env> {
     let parameters: Payload
     try {
       parameters = await decode(decryptionKey, data)
-      const image = await godrawer.draw(parameters, c.env.R2_ASSETS)
+      const image = await godrawer.draw(parameters, c.env.R2_ASSETS, Number.parseInt(c.env.IMAGE_QUALITY ||= "75"))
       return new Response(image, {
         status: 200,
         headers: {

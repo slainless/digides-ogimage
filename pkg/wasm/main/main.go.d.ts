@@ -3,7 +3,7 @@ import { Payload } from '../../../src/schema/generated/payload'
 
 declare global {
   namespace godrawer {
-    function draw(parameters: Payload, bucket: R2Bucket): Promise<ReadableStream>
+    function draw(parameters: Payload, bucket: R2Bucket, quality: number): Promise<ReadableStream>
 
     namespace errors {
       const ErrInvalidStream: TypeError

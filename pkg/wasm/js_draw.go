@@ -62,7 +62,11 @@ var JsDraw = js.FuncOf(func(this js.Value, args []js.Value) any {
 				err = jpeg.Encode(pw, result, &jpeg.Options{
 					Quality: q,
 				})
-				pw.Close()
+				defer pw.Close()
+				if err != nil {
+					reject.Invoke(bridge.ToJsError(err))
+					return
+				}
 			}()
 
 			resolve.Invoke(reader.NewReadableStreamFrom(pr, 2048))

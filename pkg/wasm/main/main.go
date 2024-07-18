@@ -7,12 +7,24 @@ import (
 	"github.com/slainless/digides-ogimage/pkg/r2"
 	"github.com/slainless/digides-ogimage/pkg/reader"
 	"github.com/slainless/digides-ogimage/pkg/wasm"
+	"github.com/slainless/digides-ogimage/pkg/webp"
+	"github.com/slainless/digides-ogimage/pkg/zero"
 )
 
 func main() {
 	bridge.Console().Log("WASM Loaded.")
+	wasmRuntime, ctx, cancel := zero.NewCFWasmRuntime()
+	defer cancel()
+	defer wasmRuntime.Close(ctx)
+
+	webpModule, err := webp.NewModule(ctx, wasmRuntime)
+	if err != nil {
+		bridge.Console().Error(bridge.ToJsError(err))
+		return
+	}
+
 	js.Global().Set("godrawer", js.ValueOf(map[string]any{
-		"draw": wasm.JsDraw,
+		"draw": wasm.NewJSDraw(webpModule),
 		"errors": map[string]any{
 			"ErrInvalidStream":          reader.ErrInvalidStream.ToJS(),
 			"ErrInvalidReadingResult":   reader.ErrInvalidReadingResult.ToJS(),

@@ -22,7 +22,7 @@ var payload = js.ValueOf(map[string]any{
 var bucket js.Value
 
 func init() {
-	js.Global().Set("go_draw", JsDraw)
+	js.Global().Set("go_draw", NewJSDraw(nil))
 
 	platform, jsErr, err := bridge.ResolvePromise(
 		js.Global().Get("require").Invoke("wrangler").Get("getPlatformProxy").

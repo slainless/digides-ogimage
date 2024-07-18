@@ -1,8 +1,8 @@
 {
   "scripts": {
     "dev": "wrangler dev",
-    "dev:wasm": "chokidar \"./pkg/**/*.go\" -c \"./scripts/build_wasm.sh\"",
-    "dev:webp": "chokidar \"./pkg/webp/**/*.c\" -c \"./scripts/build_libwebp.sh\"",
+    "dev:wasm": "chokidar \"./pkg/**/*.go\" --initial -c \"./scripts/build_wasm.sh\"",
+    "dev:webp": "chokidar \"./pkg/webp/**/*.c\" --initial -c \"./scripts/build_libwebp.sh\"",
     "deploy": "bash ./scripts/build_wasm.sh && wrangler deploy",
     "codegen": "typia generate --input src/schema/templates --output src/schema/generated",
     "prepare": "ts-patch install && typia patch && bun run codegen"

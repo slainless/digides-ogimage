@@ -5,7 +5,7 @@ if [ ! -d "pkg/webp/libwebp" ]; then
 fi
 
 echo "~ Building libwebp..."
-emcc pkg/webp/webp.c -o .generated/webp.wasm --no-entry \
+emcc pkg/webp/webp.c -Os -o pkg/webp/webp.generated.wasm --no-entry \
   -I \
     pkg/webp/libwebp \
     pkg/webp/libwebp/src/{dec,dsp,demux,enc,mux,utils}/*.c \

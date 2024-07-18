@@ -7,6 +7,7 @@ require (
 	github.com/fogleman/gg v1.3.0
 	github.com/goki/freetype v1.0.5
 	github.com/stretchr/testify v1.9.0
+	github.com/tetratelabs/wazero v1.7.3
 )
 
 require (

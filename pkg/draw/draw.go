@@ -9,7 +9,7 @@ import (
 
 // 0.262145631 s/op
 // using parameters: [github.com/slainless/digides-ogimage/pkg/ogimage_test.LoadParameters]
-func Draw(param Parameters) (image.Image, error) {
+func Draw(param Parameters) (*image.RGBA, error) {
 	const (
 		canvasWidth  = 1200
 		canvasHeight = 630

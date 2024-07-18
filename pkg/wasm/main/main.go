@@ -9,6 +9,7 @@ import (
 	"github.com/slainless/digides-ogimage/pkg/wasm"
 	"github.com/slainless/digides-ogimage/pkg/webp"
 	"github.com/slainless/digides-ogimage/pkg/zero"
+	"github.com/tetratelabs/wazero"
 )
 
 func main() {
@@ -17,7 +18,11 @@ func main() {
 	defer cancel()
 	defer wasmRuntime.Close(ctx)
 
-	webpModule, err := webp.NewModule(ctx, wasmRuntime)
+	webpModule, err := webp.NewModule(ctx, wasmRuntime,
+		wazero.NewModuleConfig().
+			WithStderr(bridge.NewWriterFrom(bridge.Console().Error)).
+			WithStdout(bridge.NewWriterFrom(bridge.Console().Log)),
+	)
 	if err != nil {
 		bridge.Console().Error(bridge.ToJsError(err))
 		return

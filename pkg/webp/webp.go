@@ -16,12 +16,10 @@ var (
 var (
 	//go:embed webp.generated.wasm
 	webpWasm []byte
-	// compiledWebpWasm wazero.CompiledModule
 )
 
-func NewModule(ctx context.Context, runtime wazero.Runtime) (*Module, error) {
-	// mod, err := zero.Runtime.InstantiateModule(zero.RuntimeCtx, compiledWebpWasm, wazero.NewModuleConfig())
-	mod, err := runtime.InstantiateWithConfig(ctx, webpWasm, wazero.NewModuleConfig())
+func NewModule(ctx context.Context, runtime wazero.Runtime, config wazero.ModuleConfig) (*Module, error) {
+	mod, err := runtime.InstantiateWithConfig(ctx, webpWasm, config)
 	if err != nil {
 		return nil, err
 	}
@@ -30,6 +28,8 @@ func NewModule(ctx context.Context, runtime wazero.Runtime) (*Module, error) {
 	case
 		mod.ExportedFunction("encode") == nil,
 		mod.ExportedFunction("version") == nil,
+		mod.ExportedFunction("create_buffer") == nil,
+		mod.ExportedFunction("free_buffer") == nil,
 		mod.ExportedFunction("free_result") == nil:
 		return nil, ErrInvalidWeBPModule
 	}

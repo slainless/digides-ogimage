@@ -11,7 +11,7 @@ func NewCFWasmRuntime() (wazero.Runtime, context.Context, context.CancelFunc) {
 	ctx, cancel := context.WithCancel(context.Background())
 	runtime := wazero.NewRuntimeWithConfig(
 		context.TODO(),
-		wazero.NewRuntimeConfigInterpreter(),
+		wazero.NewRuntimeConfigInterpreter().WithDebugInfoEnabled(true),
 	)
 	wasi_snapshot_preview1.MustInstantiate(ctx, runtime)
 

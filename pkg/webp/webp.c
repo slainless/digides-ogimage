@@ -1,5 +1,11 @@
 #include "emscripten.h"
 #include "./libwebp/src/webp/encode.h"
+#include <stdio.h>
+
+typedef struct {
+    uint8_t *buffer;
+    size_t size;
+} EncodeResult;
 
 EMSCRIPTEN_KEEPALIVE
 int version() {
@@ -17,19 +23,21 @@ void free_buffer(uint8_t* buffer) {
 }
 
 EMSCRIPTEN_KEEPALIVE
-uint8_t* encode(uint8_t* buffer, int width, int height, int quality) {
-  uint8_t* out;
-  size_t size = WebPEncodeRGBA(buffer, width, height, width * 4, quality, &out);
+EncodeResult* encode(uint8_t* buffer, int width, int height, float quality) {
+  uint8_t* out = malloc(1024 * 1024 * sizeof(uint8_t));
+  size_t size;
 
-  uint8_t* result = malloc(2 * sizeof(int));
-  result[0] = (int) out;
-  result[1] = size;
+  size = WebPEncodeRGBA(buffer, width, height, width * 4, quality, &out);
+
+  EncodeResult *result = malloc(sizeof(EncodeResult));
+  result->buffer = out;
+  result->size = size;
   
   return result;
 }
 
 EMSCRIPTEN_KEEPALIVE
-void free_result(uint8_t* resultPtr) {
-  WebPFree((uint8_t*) resultPtr[0]);
-  free(resultPtr);
+void free_result(EncodeResult* result) {
+  WebPFree(result->buffer);
+  free(result);
 }

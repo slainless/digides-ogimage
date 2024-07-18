@@ -20,7 +20,7 @@ func parseQuality(quality js.Value) (int, error) {
 		return 0, errors.New("quality must be between 0 and 100")
 	}
 
-	if js.Global().Get("Math").Call("isNaN", quality).Truthy() {
+	if js.Global().Get("Number").Call("isNaN", quality).Truthy() {
 		return 0, errors.New("quality must be a number")
 	}
 

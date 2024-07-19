@@ -1,5 +1,10 @@
 # digides-ogimage
 
+> [!WARNING]
+> Deprecated: This implementation has memory leak.
+> WASI version available which is more stable and truly production ready.
+> https://github.com/slainless/digides-ogimaker.
+
 <p align="center">
   <img src="./assets/example.jpeg" width="80%"/>
 </p>
@@ -18,8 +23,6 @@ Managed to reduce drawing time to around 0.8~0.9s/op. I think i can get more per
 satisfied with the current drawer. Now, I just need to pass the image to a WEBP or AVIF decoder.
 
 ## Future plan
-
-This repo is production ready, with WASM loaded correctly and service running.
 
 Considering that [cloudflare WebGPU API is not ready yet](https://developers.cloudflare.com/durable-objects/api/webgpu/) 
 (and even then, it's only supported on Durable Objects), the only choice is to render using CPU. Not that I know how to program using 
